@@ -25,7 +25,7 @@ LABEL maintainer="pvn@novarese.net"
 HEALTHCHECK --timeout=10s CMD /bin/date || exit 1
 WORKDIR /bin
 COPY --from=builder /solunar_cmdline-master/solunar solunar
-RUN apk add -U tzdata bash && cp /usr/share/zoneinfo/America/Chicago /etc/localtime
+#RUN apk add -U tzdata bash && cp /usr/share/zoneinfo/America/Chicago /etc/localtime
 
 USER 65534:65534
 CMD ["-c", "London"]
