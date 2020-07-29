@@ -6,7 +6,7 @@
 ### STAGE 1
 FROM alpine:latest as builder
 WORKDIR /solunar_cmdline-master
-RUN apk update && apk add --no-cache gcc make curl
+RUN apk update && apk add --no-cache build-base gcc make curl
  
 ### Clone private repository
 ### NOTE: we could do something more conventional like:
