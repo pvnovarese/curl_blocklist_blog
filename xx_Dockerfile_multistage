@@ -23,10 +23,13 @@ LABEL name="solunar-demo"
 LABEL maintainer="pvn@novarese.net"
 
 HEALTHCHECK --timeout=10s CMD /bin/date || exit 1
-WORKDIR /bin
-COPY --from=builder /solunar_cmdline-master/solunar solunar
+WORKDIR /usr/local/bin
+COPY --from=builder /solunar_cmdline-master/solunar /usr/local/bin/solunar
+
+# if you want to use a particular localtime,
+# uncomment this and set zoneinfo appropriately
 #RUN apk add --no-cache tzdata bash && cp /usr/share/zoneinfo/America/Chicago /etc/localtime
 
 USER 65534:65534
 CMD ["-c", "London"]
-ENTRYPOINT ["/bin/solunar"]
+ENTRYPOINT ["/usr/local/bin/solunar"]
