@@ -22,7 +22,7 @@ MAINTAINER Paul Novarese pvn@novarese.net
 LABEL name="solunar-demo"
 LABEL maintainer="pvn@novarese.net"
 
-HEALTHCHECK --timeout=10s CMD /bin/date || exit 1
+HEALTHCHECK NONE
 WORKDIR /usr/local/bin
 COPY --from=builder /solunar_cmdline-master/solunar /usr/local/bin/solunar
 
