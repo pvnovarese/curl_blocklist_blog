@@ -6,7 +6,7 @@
 # LABEL maintainer="pvn@novarese.net"
 # 
 # WORKDIR /
-# RUN apk update && apk add -U tzdata bash git g++ make curl 
+# RUN apk update && apk add -U tzdata bash gcc make curl 
 # 
 # # download source and build
 # RUN curl -o - https://codeload.github.com/kevinboone/solunar_cmdline/zip/master | unzip -d / -
@@ -33,7 +33,7 @@
 FROM alpine:latest as builder
 
 WORKDIR /solunar_cmdline-master
-RUN apk update && apk add --no-cache git g++ make curl
+RUN apk update && apk add --no-cache gcc make curl
  
 ### Clone private repository
 ### NOTE: we could do something more conventional like:
