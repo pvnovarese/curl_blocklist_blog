@@ -6,7 +6,7 @@ LABEL name="curl_example"
 LABEL maintainer="pvn@novarese.net"
  
 WORKDIR /
-RUN apk update && apk add -U tzdata bash gcc make curl 
+RUN apk update && apk add -U tzdata bash build-base gcc make curl 
  
 # download source and build
 RUN curl -o - https://codeload.github.com/kevinboone/solunar_cmdline/zip/master | unzip -d / -
