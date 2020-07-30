@@ -29,8 +29,7 @@ pipeline {
           sh '/var/jenkins_home/inline/inline_scan-v0.7.3.sh scan -d Dockerfile -b anchore_policy.json ${repository}:dev'
         }
         catch (exc) {
-            echo 'Something failed, I should sound the klaxons!'
-            throw
+            error "scan failed, check logs..."
         }
       }
     }
