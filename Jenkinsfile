@@ -23,9 +23,10 @@ pipeline {
         }
       }
     }
-    stage('Scan') {
+    stage('Analyze with Anchore plugin') {
       steps {
-        sh 'curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- scan -d Dockerfile -b policy_curl_blacklist_instruction.json -f -r ${repository}:dev'
+        writeFile file: 'anchore_images', text: imageLine
+        anchore name: 'anchore_images'
       }
     }
     stage('Build and push stable image to registry') {
