@@ -43,9 +43,4 @@ pipeline {
       }
     }
   }
-  post {
-    always {
-      archiveArtifacts artifacts: 'anchore-reports/*.json', fingerprint: true
-    }
-  }
 }
