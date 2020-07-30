@@ -1,5 +1,6 @@
 # example dockerfile that will use curl to download source, anchore
 # will stop this with a simple package blacklist on curl
+
 FROM alpine:latest 
 MAINTAINER Paul Novarese pvn@novarese.net
 LABEL name="curl_example"
