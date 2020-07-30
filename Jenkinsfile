@@ -26,12 +26,6 @@ pipeline {
     stage('Scan') {
       steps {
         sh '/var/jenkins_home/inline/inline_scan-v0.7.3.sh scan -d Dockerfile -b anchore_policy.json ${IMAGE_NAME}:dev'
-            }
-
-    stage('Analyze with Anchore plugin') {
-      steps {
-        writeFile file: 'anchore_images', text: imageLine
-        anchore name: 'anchore_images'
       }
     }
     stage('Build and push stable image to registry') {
