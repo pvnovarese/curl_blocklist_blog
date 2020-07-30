@@ -37,10 +37,14 @@ pipeline {
             image.push()  
             def imageLatest = docker.build(repository + ':latest')
             imageLatest.push()  
-
           }
         }
       }
+    }
+  }
+  post {
+    always {
+      archiveArtifacts artifacts: 'anchore-reports/*.json', fingerprint: true
     }
   }
 }
