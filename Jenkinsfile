@@ -25,12 +25,7 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        try {
-          sh '/var/jenkins_home/inline/inline_scan-v0.7.3.sh scan -d Dockerfile -b anchore_policy.json ${repository}:dev'
-        }
-        catch (exc) {
-            error "scan failed, check logs..."
-        }
+        sh '/var/jenkins_home/inline/inline_scan-v0.7.3.sh scan -d Dockerfile -b anchore_policy.json ${repository}:dev'
       }
     }
     stage('Build and push stable image to registry') {
