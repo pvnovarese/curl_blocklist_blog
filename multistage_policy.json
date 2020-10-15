@@ -1,0 +1,63 @@
+{
+  "comment": "",
+  "id": "1afd4470-ea7a-486a-8807-97dfc4e2fa3e",
+  "name": "curl_example",
+  "rules": [
+    {
+      "action": "STOP",
+      "gate": "dockerfile",
+      "id": "5761853b-4d78-49ad-8a22-fc591ee958e2",
+      "params": [
+        {
+          "name": "instruction",
+          "value": "RUN"
+        },
+        {
+          "name": "check",
+          "value": "like"
+        },
+        {
+          "name": "value",
+          "value": ".*curl.*"
+        }
+      ],
+      "trigger": "instruction"
+    },
+    {
+      "action": "GO",
+      "gate": "dockerfile",
+      "id": "edca7b93-7ab5-4ea0-9aad-b74e993f3493",
+      "params": [
+        {
+          "name": "instruction",
+          "value": "HEALTHCHECK"
+        },
+        {
+          "name": "check",
+          "value": "exists"
+        }
+      ],
+      "trigger": "instruction"
+    },
+    {
+      "action": "STOP",
+      "gate": "dockerfile",
+      "id": "aea1c585-7a98-4edf-b67d-31abd15e2ac2",
+      "params": [],
+      "trigger": "no_dockerfile_provided"
+    },
+    {
+      "action": "STOP",
+      "gate": "packages",
+      "id": "aa209113-7b93-42ad-b58b-ef12d0ff4b10",
+      "params": [
+        {
+          "name": "name",
+          "value": "curl"
+        }
+      ],
+      "trigger": "blacklist"
+    }
+  ],
+  "version": "1_0"
+}
