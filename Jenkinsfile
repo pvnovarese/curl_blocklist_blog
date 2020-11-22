@@ -1,9 +1,15 @@
 pipeline {
   environment {
-    registry = 'registry.hub.docker.com'
+    // "registry" isn't required if we're using docker hub, I'm leaving it here in case 
+    // you want to use a different registry, just uncomment this and set as needed.
+    // registry = 'registry.hub.docker.com'
+    // you need a credential named 'docker-hub' with your DockerID/password to push images
     registryCredential = 'docker-hub'
+    // change this repository and imageLine to your DockerID
     repository = 'pvnovarese/curl_example'
-    imageLine = 'pvnovarese/curl_example:dev Dockerfile'
+    imageLine = "pvnovarese/curl_example:${BUILD_NUMBER} Dockerfile"
+    // old image line - delete
+    // imageLine = 'pvnovarese/curl_example:dev Dockerfile'
   }
   agent any
   stages {
@@ -14,30 +20,27 @@ pipeline {
     }
     stage('Build image and push to registry') {
       steps {
-        sh 'docker --version'
         script {
-          docker.withRegistry('https://' + registry, registryCredential) {
-            def image = docker.build(repository + ':dev')
-            image.push()
+          dockerImage = docker.build repository + ":${BUILD_NUMBER}"
+          docker.withRegistry( '', registryCredential ) { 
+            dockerImage.push() 
           }
         }
-      }
+      }      
     }
     stage('Analyze with Anchore plugin') {
       steps {
         writeFile file: 'anchore_images', text: imageLine
-        anchore name: 'anchore_images'
+        anchore name: 'anchore_images', forceAnalyze: 'true'
+        // forceAnalyze is a good idea since we're passing a Dockerfile with the image
       }
     }
-    stage('Build and push stable image to registry') {
+    stage('Re-tag as prod and push stable image to registry') {
       steps {
         script {
-          docker.withRegistry('https://' + registry, registryCredential) {
-            def timeStamp = Calendar.getInstance().getTime().format('YYYYMMdd-HHmmss',TimeZone.getTimeZone('CST'))
-            def image = docker.build(repository + ':prod-' + timeStamp)
-            image.push()  
-            def imageLatest = docker.build(repository + ':latest')
-            imageLatest.push()  
+          docker.withRegistry('', registryCredential) {
+            dockerImage.push('prod') 
+            // dockerImage.push takes the argument as a new tag for the image before pushing
           }
         }
       }
