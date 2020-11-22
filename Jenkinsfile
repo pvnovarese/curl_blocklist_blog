@@ -6,8 +6,8 @@ pipeline {
     // you need a credential named 'docker-hub' with your DockerID/password to push images
     registryCredential = 'docker-hub'
     // change this repository and imageLine to your DockerID
-    repository = 'pvnovarese/curl_example'
-    imageLine = "pvnovarese/curl_example:${BUILD_NUMBER} Dockerfile"
+    repository = 'pvnovarese/curl_blocklist_blog'
+    imageLine = "pvnovarese/curl_blocklist_blog:${BUILD_NUMBER} Dockerfile"
     // old image line - delete
     // imageLine = 'pvnovarese/curl_example:dev Dockerfile'
   }
